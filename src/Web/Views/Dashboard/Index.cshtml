@@ -1,0 +1,15 @@
+@model IEnumerable<DashboardItemVm>
+<h1>Dashboard</h1>
+<table>
+<thead><tr><th>CGI</th><th>Status</th><th>Prioriteit</th></tr></thead>
+<tbody>
+@foreach (var item in Model)
+{
+    <tr>
+        <td><a href="/cgi/@item.CgiSessionId">@item.CgiSessionId</a></td>
+        <td>@item.Status</td>
+        <td>@item.Priority</td>
+    </tr>
+}
+</tbody>
+</table>

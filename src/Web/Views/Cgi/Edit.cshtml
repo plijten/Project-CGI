@@ -1,0 +1,17 @@
+@model CgiEditVm
+<h1>CGI-sessie</h1>
+<p>Status: @Model.Status</p>
+<ol>
+@foreach (var q in Model.Questions)
+{
+    <li>@q</li>
+}
+</ol>
+<form method="post">
+    <input name="UnderstandingLevel" placeholder="UnderstandingLevel" />
+    <input name="ArgumentationLevel" placeholder="ArgumentationLevel" />
+    <input name="AiUseLevel" placeholder="AiUseLevel" />
+    <input name="FollowUpAction" placeholder="FollowUpAction" />
+    <textarea name="Notes" placeholder="Notes"></textarea>
+    <button type="submit">Opslaan</button>
+</form>
