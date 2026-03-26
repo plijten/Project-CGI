@@ -1,0 +1,10 @@
+@model IEnumerable<Domain.Entities.Student>
+<h1>Students</h1>
+<form method="post" action="/Admin/AddStudent">
+<input name="Number" placeholder="Nummer" />
+<input name="Name" placeholder="Naam" />
+<input name="Email" placeholder="Email" />
+<input name="ClassName" placeholder="Class" />
+<button type="submit">Toevoegen</button>
+</form>
+<ul>@foreach(var s in Model){<li>@s.Number - @s.Name (@s.ClassName)</li>}</ul>

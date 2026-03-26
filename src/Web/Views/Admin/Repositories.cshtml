@@ -1,0 +1,10 @@
+@model IEnumerable<Domain.Entities.Repository>
+<h1>Repositories</h1>
+<form method="post" action="/Admin/AddRepository">
+<input name="GitHubRepoId" placeholder="GitHubRepoId" />
+<input name="Owner" placeholder="Owner" />
+<input name="Name" placeholder="Name" />
+<input name="DefaultBranch" placeholder="DefaultBranch" />
+<button type="submit">Toevoegen</button>
+</form>
+<ul>@foreach(var r in Model){<li>@r.Owner/@r.Name (@r.DefaultBranch)</li>}</ul>

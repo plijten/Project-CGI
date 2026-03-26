@@ -1,0 +1,17 @@
+@model PushDetailVm
+<h1>Push detail</h1>
+<p>Delivery: @Model.DeliveryId</p>
+<p>Branch: @Model.Branch</p>
+<p>Pusher: @Model.PusherName</p>
+<p>Commits: @Model.CommitCount</p>
+@foreach (var commit in Model.Commits)
+{
+    <h3>@commit.Sha</h3>
+    <p>@commit.Message</p>
+    <ul>
+    @foreach (var file in commit.ChangedFiles)
+    {
+        <li>@file</li>
+    }
+    </ul>
+}
