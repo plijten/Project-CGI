@@ -1,0 +1,43 @@
+@model Web.ViewModels.AssessmentFormVm
+<h1>Beoordeling invullen - @Model.WorkProcessCode</h1>
+<p>Groep: @Model.GroupName</p>
+
+<form method="post" action="/Assessments/Save">
+    <input type="hidden" name="AssessmentId" value="@Model.AssessmentId" />
+    <input type="hidden" name="GroupId" value="@Model.GroupId" />
+    <input type="hidden" name="WorkProcessId" value="@Model.WorkProcessId" />
+    <input type="hidden" name="WorkProcessCode" value="@Model.WorkProcessCode" />
+    <input type="hidden" name="WorkProcessTitle" value="@Model.WorkProcessTitle" />
+
+    <label>Type beoordeling
+        <select name="AssessmentType">
+            <option value="Tussen" selected="@(Model.AssessmentType == "Tussen")">Tussen</option>
+            <option value="Definitief" selected="@(Model.AssessmentType == "Definitief")">Definitief</option>
+        </select>
+    </label><br />
+    <input name="PerformedBy" value="@Model.PerformedBy" placeholder="Ingevuld door" required /><br />
+    <input type="date" name="Date" value="@Model.Date?.ToString("yyyy-MM-dd")" /><br />
+    <input name="CandidateName" value="@Model.CandidateName" placeholder="Kandidaat" required /><br />
+    <input name="StudentNumber" value="@Model.StudentNumber" placeholder="Studentnummer" required /><br />
+    <input name="ClassName" value="@Model.ClassName" placeholder="Klas" /><br />
+    <input name="Assessor1" value="@Model.Assessor1" placeholder="Beoordelaar 1" required /><br />
+    <input name="Assessor2" value="@Model.Assessor2" placeholder="Beoordelaar 2" /><br />
+    <textarea name="Motivation" placeholder="Motivatie">@Model.Motivation</textarea><br />
+    <label><input type="checkbox" name="AuthenticityIsOwnWork" value="true" checked="@Model.AuthenticityIsOwnWork" /> Authenticiteit: eigen werk</label>
+    <input type="hidden" name="AuthenticityIsOwnWork" value="false" />
+    <textarea name="AuthenticityNotes" placeholder="Authenticiteit toelichting">@Model.AuthenticityNotes</textarea>
+
+    <h3>Criteria</h3>
+    @for (var i = 0; i < Model.Criteria.Count; i++)
+    {
+        <input type="hidden" name="Criteria[@i].CriterionId" value="@Model.Criteria[i].CriterionId" />
+        <input type="hidden" name="Criteria[@i].CriterionCode" value="@Model.Criteria[i].CriterionCode" />
+        <input type="hidden" name="Criteria[@i].Title" value="@Model.Criteria[i].Title" />
+        <p>
+            <strong>@Model.Criteria[i].CriterionCode - @Model.Criteria[i].Title</strong> @(Model.Criteria[i].IsCritical ? "(kritiek)" : "")<br />
+            <input type="number" min="0" max="3" name="Criteria[@i].Score" value="@Model.Criteria[i].Score" required />
+        </p>
+    }
+
+    <button type="submit">Opslaan</button>
+</form>

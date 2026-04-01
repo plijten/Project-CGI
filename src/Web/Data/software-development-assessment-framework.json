@@ -1,0 +1,115 @@
+{
+  "id": "software-development-assessment-framework",
+  "version": "1.0.0",
+  "language": "nl-NL",
+  "qualification": {
+    "name": "Software development",
+    "creboCode": "25604"
+  },
+  "kerntaken": [
+    {
+      "id": "kt-b1-k1",
+      "code": "B1-K1",
+      "title": "Realiseert software",
+      "workProcesses": [
+        {
+          "id": "wp-b1-k1-w1",
+          "code": "B1-K1-W1",
+          "title": "Plant werkzaamheden en bewaakt de voortgang",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 2.0, "passed": false },{ "points": 2, "grade": 3.0, "passed": false },{ "points": 3, "grade": 4.0, "passed": false },{ "points": 4, "grade": 5.0, "passed": false },{ "points": 5, "grade": 6.0, "passed": true },{ "points": 6, "grade": 7.0, "passed": true },{ "points": 7, "grade": 8.0, "passed": true },{ "points": 8, "grade": 9.0, "passed": true },{ "points": 9, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k1-w1-1", "code": "T1_T2_EISEN_WENSEN", "title": "Eisen/wensen", "isCritical": true},
+            {"id": "crit-b1-k1-w1-2", "code": "T2_PLANNING", "title": "Planning", "isCritical": false},
+            {"id": "crit-b1-k1-w1-3", "code": "T3_BEWAKEN_VOORTGANG", "title": "Bewaken voortgang", "isCritical": false}
+          ]
+        },
+        {
+          "id": "wp-b1-k1-w2",
+          "code": "B1-K1-W2",
+          "title": "Ontwerpt software",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 2.0, "passed": false },{ "points": 2, "grade": 3.0, "passed": false },{ "points": 3, "grade": 4.0, "passed": false },{ "points": 4, "grade": 5.0, "passed": false },{ "points": 5, "grade": 6.0, "passed": true },{ "points": 6, "grade": 7.0, "passed": true },{ "points": 7, "grade": 8.0, "passed": true },{ "points": 8, "grade": 9.0, "passed": true },{ "points": 9, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k1-w2-1", "code": "T1_ONTWERP", "title": "Ontwerp", "isCritical": true},
+            {"id": "crit-b1-k1-w2-2", "code": "T1_SCHEMATECHNIEKEN", "title": "Schematechnieken", "isCritical": false},
+            {"id": "crit-b1-k1-w2-3", "code": "T2_ONDERBOUWING", "title": "Onderbouwing", "isCritical": true}
+          ]
+        },
+        {
+          "id": "wp-b1-k1-w3",
+          "code": "B1-K1-W3",
+          "title": "Realiseert (onderdelen van) software",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 1.8, "passed": false },{ "points": 2, "grade": 2.5, "passed": false },{ "points": 3, "grade": 3.3, "passed": false },{ "points": 4, "grade": 4.0, "passed": false },{ "points": 5, "grade": 4.8, "passed": false },{ "points": 6, "grade": 5.5, "passed": true },{ "points": 7, "grade": 6.3, "passed": true },{ "points": 8, "grade": 7.0, "passed": true },{ "points": 9, "grade": 7.8, "passed": true },{ "points": 10, "grade": 8.5, "passed": true },{ "points": 11, "grade": 9.3, "passed": true },{ "points": 12, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k1-w3-1", "code": "T1_GEREALISEERDE_FUNCTIONALITEIT", "title": "Gerealiseerde functionaliteit", "isCritical": true},
+            {"id": "crit-b1-k1-w3-2", "code": "T1_KWALITEIT_FUNCTIONALITEITEN", "title": "Kwaliteit opgeleverde functionaliteiten", "isCritical": false},
+            {"id": "crit-b1-k1-w3-3", "code": "T1_KWALITEIT_CODE", "title": "Kwaliteit code", "isCritical": true},
+            {"id": "crit-b1-k1-w3-4", "code": "T1_VERSIEBEHEER", "title": "Versiebeheer", "isCritical": true}
+          ]
+        },
+        {
+          "id": "wp-b1-k1-w4",
+          "code": "B1-K1-W4",
+          "title": "Test software",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 1.8, "passed": false },{ "points": 2, "grade": 2.5, "passed": false },{ "points": 3, "grade": 3.3, "passed": false },{ "points": 4, "grade": 4.0, "passed": false },{ "points": 5, "grade": 4.8, "passed": false },{ "points": 6, "grade": 5.5, "passed": true },{ "points": 7, "grade": 6.3, "passed": true },{ "points": 8, "grade": 7.0, "passed": true },{ "points": 9, "grade": 7.8, "passed": true },{ "points": 10, "grade": 8.5, "passed": true },{ "points": 11, "grade": 9.3, "passed": true },{ "points": 12, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k1-w4-1", "code": "T1_TESTPLAN", "title": "Testplan", "isCritical": true},
+            {"id": "crit-b1-k1-w4-2", "code": "T1_TESTSCENARIO", "title": "Testscenario", "isCritical": true},
+            {"id": "crit-b1-k1-w4-3", "code": "T2_TESTEN", "title": "Testen", "isCritical": false},
+            {"id": "crit-b1-k1-w4-4", "code": "T3_TESTRAPPORT", "title": "Testrapport", "isCritical": false}
+          ]
+        },
+        {
+          "id": "wp-b1-k1-w5",
+          "code": "B1-K1-W5",
+          "title": "Doet verbetervoorstellen voor software",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 2.0, "passed": false },{ "points": 2, "grade": 3.0, "passed": false },{ "points": 3, "grade": 4.0, "passed": false },{ "points": 4, "grade": 5.0, "passed": false },{ "points": 5, "grade": 6.0, "passed": true },{ "points": 6, "grade": 7.0, "passed": true },{ "points": 7, "grade": 8.0, "passed": true },{ "points": 8, "grade": 9.0, "passed": true },{ "points": 9, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k1-w5-1", "code": "T1_ANALYSEREN", "title": "Analyseren", "isCritical": false},
+            {"id": "crit-b1-k1-w5-2", "code": "T1_VERBETERVOORSTELLEN", "title": "Verbeter-voorstellen", "isCritical": true},
+            {"id": "crit-b1-k1-w5-3", "code": "T1_PLANNING_VERBETERING", "title": "Planning", "isCritical": false}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kt-b1-k2",
+      "code": "B1-K2",
+      "title": "Werkt in een ontwikkelteam",
+      "workProcesses": [
+        {
+          "id": "wp-b1-k2-w1",
+          "code": "B1-K2-W1",
+          "title": "Voert overleg",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 1.8, "passed": false },{ "points": 2, "grade": 2.5, "passed": false },{ "points": 3, "grade": 3.3, "passed": false },{ "points": 4, "grade": 4.0, "passed": false },{ "points": 5, "grade": 4.8, "passed": false },{ "points": 6, "grade": 5.5, "passed": true },{ "points": 7, "grade": 6.3, "passed": true },{ "points": 8, "grade": 7.0, "passed": true },{ "points": 9, "grade": 7.8, "passed": true },{ "points": 10, "grade": 8.5, "passed": true },{ "points": 11, "grade": 9.3, "passed": true },{ "points": 12, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k2-w1-1", "code": "T1_ACTIEVE_DEELNAME", "title": "Actieve deelname", "isCritical": false},
+            {"id": "crit-b1-k2-w1-2", "code": "T2_AFSTEMMEN", "title": "Afstemmen", "isCritical": false},
+            {"id": "crit-b1-k2-w1-3", "code": "T3_AFSPRAKEN_VASTLEGGEN", "title": "Afspraken vastleggen", "isCritical": false},
+            {"id": "crit-b1-k2-w1-4", "code": "T3_AFSPRAKEN_NAKOMEN", "title": "Afspraken nakomen", "isCritical": false}
+          ]
+        },
+        {
+          "id": "wp-b1-k2-w2",
+          "code": "B1-K2-W2",
+          "title": "Presenteert het opgeleverde werk",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 2.0, "passed": false },{ "points": 2, "grade": 3.0, "passed": false },{ "points": 3, "grade": 4.0, "passed": false },{ "points": 4, "grade": 5.0, "passed": false },{ "points": 5, "grade": 6.0, "passed": true },{ "points": 6, "grade": 7.0, "passed": true },{ "points": 7, "grade": 8.0, "passed": true },{ "points": 8, "grade": 9.0, "passed": true },{ "points": 9, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k2-w2-1", "code": "T1_PRESENTATIE_INHOUD", "title": "Presentatie inhoud", "isCritical": false},
+            {"id": "crit-b1-k2-w2-2", "code": "T1_PRESENTATIETECHNIEKEN", "title": "Presentatie-technieken", "isCritical": false},
+            {"id": "crit-b1-k2-w2-3", "code": "T1_BEANTWOORDEN_VRAGEN", "title": "Beantwoorden vragen", "isCritical": false}
+          ]
+        },
+        {
+          "id": "wp-b1-k2-w3",
+          "code": "B1-K2-W3",
+          "title": "Reflecteert op het werk",
+          "gradeTable": [{ "points": 0, "grade": 1.0, "passed": false },{ "points": 1, "grade": 2.5, "passed": false },{ "points": 2, "grade": 4.0, "passed": false },{ "points": 3, "grade": 5.5, "passed": true },{ "points": 4, "grade": 7.0, "passed": true },{ "points": 5, "grade": 8.5, "passed": true },{ "points": 6, "grade": 10.0, "passed": true }],
+          "criteria": [
+            {"id": "crit-b1-k2-w3-1", "code": "T1_FEEDBACKPROCES", "title": "Feedbackproces", "isCritical": false},
+            {"id": "crit-b1-k2-w3-2", "code": "T2_REACTIE_OP_FEEDBACK", "title": "Reactie op feedback", "isCritical": false}
+          ]
+        }
+      ]
+    }
+  ]
+}

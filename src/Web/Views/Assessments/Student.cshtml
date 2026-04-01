@@ -1,0 +1,12 @@
+@model IEnumerable<Web.ViewModels.AssessmentListItemVm>
+<h1>Mijn beoordelingen (@ViewBag.StudentName)</h1>
+
+<ul>
+@foreach (var item in Model)
+{
+    <li>
+        <a href="/Assessments/Detail/@item.Id">@item.WorkProcessCode - @item.AssessmentType</a>
+        (cijfer @item.Grade, @(item.Passed ? "Behaald" : "Niet behaald"), gewijzigd @item.LastUpdatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC)
+    </li>
+}
+</ul>
