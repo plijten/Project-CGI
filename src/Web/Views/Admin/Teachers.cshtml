@@ -1,8 +1,28 @@
 @model IEnumerable<Domain.Entities.Teacher>
-<h1>Teachers</h1>
-<form method="post" action="/Admin/AddTeacher">
-<input name="Name" placeholder="Naam" />
-<input name="Email" placeholder="Email" />
-<button type="submit">Toevoegen</button>
-</form>
-<ul>@foreach(var t in Model){<li>@t.Name - @t.Email</li>}</ul>
+<div class="grid grid-2">
+    <div class="card">
+        <h1>Docent toevoegen</h1>
+        <form method="post" action="/Admin/AddTeacher">
+            <input name="Name" placeholder="Naam" />
+            <input name="Email" placeholder="E-mailadres" />
+            <input name="Password" type="password" placeholder="Wachtwoord" />
+            <button type="submit">Docent opslaan</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Bestaande docenten</h2>
+        <table>
+            <thead><tr><th>Naam</th><th>E-mail</th></tr></thead>
+            <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td>@t.Name</td>
+                    <td>@t.Email</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

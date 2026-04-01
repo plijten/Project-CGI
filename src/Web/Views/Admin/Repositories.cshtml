@@ -1,10 +1,83 @@
-@model IEnumerable<Domain.Entities.Repository>
-<h1>Repositories</h1>
-<form method="post" action="/Admin/AddRepository">
-<input name="GitHubRepoId" placeholder="GitHubRepoId" />
-<input name="Owner" placeholder="Owner" />
-<input name="Name" placeholder="Name" />
-<input name="DefaultBranch" placeholder="DefaultBranch" />
-<button type="submit">Toevoegen</button>
-</form>
-<ul>@foreach(var r in Model){<li>@r.Owner/@r.Name (@r.DefaultBranch)</li>}</ul>
+@model RepositoriesPageVm
+
+<div class="grid grid-2">
+    <div class="card">
+        <h1>Repository koppelen</h1>
+        <form method="post" action="/Admin/AddRepository">
+            <input name="GitHubRepoId" placeholder="GitHubRepoId" />
+            <input name="Owner" placeholder="Owner" />
+            <input name="Name" placeholder="Repository name" />
+            <input name="DefaultBranch" placeholder="Default branch" value="main" />
+            <label><input type="checkbox" name="IsActive" value="true" checked style="width:auto; margin-right:.5rem;" /> Actief</label>
+            <button type="submit">Repository opslaan</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Repository toewijzen aan student en docent</h2>
+        <form method="post" action="/Admin/AddEnrollment">
+            <label>Repository</label>
+            <select name="RepositoryId">
+                @foreach (var repository in Model.Repositories)
+                {
+                    <option value="@repository.Id">@repository.Owner/@repository.Name</option>
+                }
+            </select>
+
+            <label>Student</label>
+            <select name="StudentId">
+                @foreach (var student in Model.Students)
+                {
+                    <option value="@student.Id">@student.Name (@student.ClassName)</option>
+                }
+            </select>
+
+            <label>Docent</label>
+            <select name="TeacherId">
+                @foreach (var teacher in Model.Teachers)
+                {
+                    <option value="@teacher.Id">@teacher.Name</option>
+                }
+            </select>
+
+            <input name="AssignmentName" placeholder="Opdrachtnaam" />
+            <button type="submit">Toewijzing opslaan</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Repositories</h2>
+    <table>
+        <thead><tr><th>Repository</th><th>GitHubRepoId</th><th>Default branch</th><th>Status</th></tr></thead>
+        <tbody>
+        @foreach (var repository in Model.Repositories)
+        {
+            <tr>
+                <td>@repository.Owner/@repository.Name</td>
+                <td>@repository.GitHubRepoId</td>
+                <td>@repository.DefaultBranch</td>
+                <td>@(repository.IsActive ? "Actief" : "Inactief")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>Toewijzingen</h2>
+    <table>
+        <thead><tr><th>Repository</th><th>Student</th><th>Docent</th><th>Opdracht</th></tr></thead>
+        <tbody>
+        @foreach (var enrollment in Model.Enrollments)
+        {
+            <tr>
+                <td>@enrollment.RepositoryName</td>
+                <td>@enrollment.StudentName</td>
+                <td>@enrollment.TeacherName</td>
+                <td>@enrollment.AssignmentName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

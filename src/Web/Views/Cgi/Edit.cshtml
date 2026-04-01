@@ -1,17 +1,205 @@
 @model CgiEditVm
-<h1>CGI-sessie</h1>
-<p>Status: @Model.Status</p>
-<ol>
-@foreach (var q in Model.Questions)
-{
-    <li>@q</li>
+@{
+    static string IsSelected(string currentValue, string option)
+        => string.Equals(currentValue, option, StringComparison.OrdinalIgnoreCase) ? "selected" : string.Empty;
 }
-</ol>
-<form method="post">
-    <input name="UnderstandingLevel" placeholder="UnderstandingLevel" />
-    <input name="ArgumentationLevel" placeholder="ArgumentationLevel" />
-    <input name="AiUseLevel" placeholder="AiUseLevel" />
-    <input name="FollowUpAction" placeholder="FollowUpAction" />
-    <textarea name="Notes" placeholder="Notes"></textarea>
-    <button type="submit">Opslaan</button>
-</form>
+<div class="card">
+    <h1>CGI voor @Model.StudentName</h1>
+    <div class="grid grid-2">
+        <div>
+            <p><strong>Repository:</strong> @Model.RepositoryName</p>
+            <p><strong>Docent:</strong> @Model.TeacherName</p>
+            <p><strong>Branch:</strong> @Model.Branch</p>
+        </div>
+        <div>
+            <p><strong>Status:</strong> @Model.Status</p>
+            <p><strong>Prioriteit:</strong> <span class="badge">@Model.Priority</span></p>
+            <p><a asp-controller="Pushes" asp-action="Detail" asp-route-id="@Model.PushEventId">Bekijk push-details</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <h2>CGI-vragen</h2>
+        <ol>
+        @foreach (var q in Model.Questions)
+        {
+            <li>
+                <strong>@q.QuestionText</strong>
+                <div class="muted">Bron: @q.SourceType</div>
+                @if (!string.IsNullOrWhiteSpace(q.StudentAnswer))
+                {
+                    <div style="margin-top:.5rem;"><strong>Antwoord student:</strong> @q.StudentAnswer</div>
+                }
+                @if (!string.IsNullOrWhiteSpace(q.AnswerAnalysis) && Model.CanReview)
+                {
+                    <div style="margin-top:.5rem;"><strong>AI-signaal:</strong> @q.AnswerAnalysis</div>
+                    @if (q.IsAnswerSuspect)
+                    {
+                        <div style="color:#b91c1c; font-weight:700;">Mogelijk onzin of ontwijkend antwoord (@q.AnswerConfidence).</div>
+                    }
+                }
+            </li>
+        }
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>Code-samenvatting</h2>
+        <div class="code-block">@Model.CodeSummary</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Automatische code review</h2>
+    <p><strong>Samenvatting:</strong> @Model.AiReviewSummary</p>
+    <p><strong>Docentinzicht:</strong> @Model.AiTeacherInsight</p>
+    <p><strong>Voorgestelde inschatting:</strong> @Model.AiSuggestedAssessment</p>
+    <p><strong>Signalen:</strong> @Model.AiRiskFlags</p>
+</div>
+
+<div class="card">
+    <h2>Commit-overzicht</h2>
+    @foreach (var commit in Model.Commits)
+    {
+        <div style="margin-bottom:1rem;">
+            <strong>@commit.Message</strong>
+            <div class="muted">@commit.Sha</div>
+            <ul>
+            @foreach (var file in commit.ChangedFiles)
+            {
+                <li>@file</li>
+            }
+            </ul>
+        </div>
+    }
+</div>
+
+@if (Model.CanReflect)
+{
+    <div class="card">
+        <h2>Reflectie van student</h2>
+        <p class="muted">Beantwoord de vragen concreet. Docenten zien ook signalen wanneer antwoorden mogelijk ontwijkend of niet inhoudelijk zijn.</p>
+        <form asp-action="SaveReflection" asp-route-sessionId="@Model.CgiSessionId" method="post">
+            @for (var i = 0; i < Model.Reflection.Answers.Count; i++)
+            {
+                <input type="hidden" name="Answers[@i].QuestionId" value="@Model.Reflection.Answers[i].QuestionId" />
+                <input type="hidden" name="Answers[@i].QuestionText" value="@Model.Reflection.Answers[i].QuestionText" />
+                <label>@Model.Reflection.Answers[i].QuestionText</label>
+                <textarea name="Answers[@i].Answer">@Model.Reflection.Answers[i].Answer</textarea>
+            }
+            <button type="submit">Reflectie opslaan</button>
+        </form>
+    </div>
+}
+
+<div class="card">
+    <h2>Beoordeling</h2>
+    @if (Model.CanReview)
+    {
+        <form method="post">
+            <label>Beoordeling</label>
+            <select name="Rating">
+                <option value="">Kies een beoordeling</option>
+                @if (Model.Outcome.Rating == "Onvoldoende")
+                {
+                    <option value="Onvoldoende" selected>Onvoldoende</option>
+                }
+                else
+                {
+                    <option value="Onvoldoende">Onvoldoende</option>
+                }
+                @if (Model.Outcome.Rating == "Matig")
+                {
+                    <option value="Matig" selected>Matig</option>
+                }
+                else
+                {
+                    <option value="Matig">Matig</option>
+                }
+                @if (Model.Outcome.Rating == "Voldoende")
+                {
+                    <option value="Voldoende" selected>Voldoende</option>
+                }
+                else
+                {
+                    <option value="Voldoende">Voldoende</option>
+                }
+                @if (Model.Outcome.Rating == "Goed")
+                {
+                    <option value="Goed" selected>Goed</option>
+                }
+                else
+                {
+                    <option value="Goed">Goed</option>
+                }
+            </select>
+
+            <div class="grid grid-2">
+                <div>
+                    <label>Inzicht</label>
+                    <select name="UnderstandingLevel">
+                        <option value="">Kies inzicht</option>
+                        @foreach (var option in Model.UnderstandingOptions)
+                        {
+                            <option value="@option" selected="@IsSelected(Model.Outcome.UnderstandingLevel, option)">@option</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label>Argumentatie</label>
+                    <select name="ArgumentationLevel">
+                        <option value="">Kies argumentatie</option>
+                        @foreach (var option in Model.ArgumentationOptions)
+                        {
+                            <option value="@option" selected="@IsSelected(Model.Outcome.ArgumentationLevel, option)">@option</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div>
+                    <label>AI-gebruik</label>
+                    <select name="AiUseLevel">
+                        <option value="">Kies AI-gebruik</option>
+                        @foreach (var option in Model.AiUseOptions)
+                        {
+                            <option value="@option" selected="@IsSelected(Model.Outcome.AiUseLevel, option)">@option</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label>Vervolgactie</label>
+                    <select name="FollowUpAction">
+                        <option value="">Kies vervolgactie</option>
+                        @foreach (var option in Model.FollowUpActionOptions)
+                        {
+                            <option value="@option" selected="@IsSelected(Model.Outcome.FollowUpAction, option)">@option</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <label>Tops</label>
+            <textarea name="Tops">@Model.Outcome.Tops</textarea>
+
+            <label>Tips</label>
+            <textarea name="Tips">@Model.Outcome.Tips</textarea>
+
+            <label>Notities</label>
+            <textarea name="Notes">@Model.Outcome.Notes</textarea>
+
+            <label><input type="checkbox" name="MarkAsCompleted" value="true" @(Model.Outcome.MarkAsCompleted ? "checked" : null) style="width:auto; margin-right:.5rem;" /> Markeer als afgerond</label>
+            <button type="submit">Beoordeling opslaan</button>
+        </form>
+    }
+    else
+    {
+        <p><strong>Beoordeling:</strong> @Model.Outcome.Rating</p>
+        <p><strong>Tops:</strong> @Model.Outcome.Tops</p>
+        <p><strong>Tips:</strong> @Model.Outcome.Tips</p>
+        <p><strong>Notities:</strong> @Model.Outcome.Notes</p>
+    }
+</div>

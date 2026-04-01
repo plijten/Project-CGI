@@ -1,0 +1,26 @@
+@model LoginVm
+
+<div class="card" style="max-width: 480px; margin: 4rem auto;">
+    <h1>Inloggen</h1>
+    <p class="muted">Log in als student of docent om de gekoppelde CGI's te bekijken.</p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <p style="color:#b91c1c; font-weight:700;">@Model.ErrorMessage</p>
+    }
+
+    <form method="post">
+        <label>E-mailadres</label>
+        <input asp-for="Email" />
+
+        <label>Wachtwoord</label>
+        <input asp-for="Password" type="password" />
+
+        <button type="submit">Inloggen</button>
+    </form>
+
+    @if ((bool?)ViewData["CanBootstrap"] == true)
+    {
+        <p class="muted" style="margin-top:1rem;">Nog geen docentaccount? <a asp-action="BootstrapTeacher">Maak het eerste docentaccount aan</a>.</p>
+    }
+</div>

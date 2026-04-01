@@ -1,17 +1,34 @@
 @model PushDetailVm
-<h1>Push detail</h1>
-<p>Delivery: @Model.DeliveryId</p>
-<p>Branch: @Model.Branch</p>
-<p>Pusher: @Model.PusherName</p>
-<p>Commits: @Model.CommitCount</p>
-@foreach (var commit in Model.Commits)
-{
-    <h3>@commit.Sha</h3>
-    <p>@commit.Message</p>
-    <ul>
-    @foreach (var file in commit.ChangedFiles)
+<div class="card">
+    <h1>Push-detail</h1>
+    <div class="grid grid-2">
+        <div>
+            <p><strong>Repository:</strong> @Model.RepositoryName</p>
+            <p><strong>Student:</strong> @Model.StudentName</p>
+            <p><strong>Docent:</strong> @Model.TeacherName</p>
+        </div>
+        <div>
+            <p><strong>Delivery:</strong> @Model.DeliveryId</p>
+            <p><strong>Branch:</strong> @Model.Branch</p>
+            <p><strong>Pusher:</strong> @Model.PusherName</p>
+            <p><strong>Aantal commits:</strong> @Model.CommitCount</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Gewijzigde code</h2>
+    @foreach (var commit in Model.Commits)
     {
-        <li>@file</li>
+        <div style="margin-bottom:1rem;">
+            <h3>@commit.Message</h3>
+            <div class="muted">@commit.Sha</div>
+            <ul>
+            @foreach (var file in commit.ChangedFiles)
+            {
+                <li>@file</li>
+            }
+            </ul>
+        </div>
     }
-    </ul>
-}
+</div>

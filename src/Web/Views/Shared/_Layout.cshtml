@@ -1,14 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8" /><title>Docentenportaal CGI</title></head>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docentenportaal CGI</title>
+    <style>
+        body { font-family: Segoe UI, Arial, sans-serif; margin: 0; background: #f4f7fb; color: #1f2937; }
+        header { background: linear-gradient(135deg, #0f172a, #1d4ed8); color: white; padding: 1rem 2rem; }
+        nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        nav a { color: white; text-decoration: none; font-weight: 600; margin-right: 1rem; }
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(15, 23, 42, .08); margin-bottom: 1.5rem; }
+        .grid { display: grid; gap: 1rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: .85rem; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+        th { color: #475569; font-size: .9rem; text-transform: uppercase; letter-spacing: .03em; }
+        input, select, textarea { width: 100%; padding: .8rem; border: 1px solid #cbd5e1; border-radius: 10px; box-sizing: border-box; margin-bottom: .75rem; }
+        button { background: #2563eb; color: white; border: 0; border-radius: 10px; padding: .85rem 1.2rem; cursor: pointer; }
+        .secondary { background: #0f172a; }
+        .badge { display: inline-block; padding: .35rem .7rem; border-radius: 999px; background: #dbeafe; color: #1d4ed8; font-weight: 700; }
+        .muted { color: #64748b; }
+        .code-block { background: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 1rem; white-space: pre-wrap; }
+        .actions { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    </style>
+</head>
 <body>
-<nav>
-    <a href="/">Dashboard</a> |
-    <a href="/Admin/Students">Students</a> |
-    <a href="/Admin/Teachers">Teachers</a> |
-    <a href="/Admin/Repositories">Repositories</a>
-</nav>
-<hr />
-@RenderBody()
+<header>
+    <nav>
+        <div>
+            <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Teacher"))
+            {
+                <a asp-controller="Admin" asp-action="Students">Studenten</a>
+                <a asp-controller="Admin" asp-action="Teachers">Docenten</a>
+                <a asp-controller="Admin" asp-action="Repositories">Repositories</a>
+            }
+        </div>
+        <div class="actions">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <span>@User.Identity.Name (@(User.IsInRole("Teacher") ? "Docent" : "Student"))</span>
+                <form asp-controller="Auth" asp-action="Logout" method="post">
+                    <button type="submit" class="secondary">Uitloggen</button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Auth" asp-action="Login">Inloggen</a>
+            }
+        </div>
+    </nav>
+</header>
+<main class="container">
+    @RenderBody()
+</main>
 </body>
 </html>

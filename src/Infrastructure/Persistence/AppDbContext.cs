@@ -21,10 +21,14 @@ public class AppDbContext : DbContext
     public DbSet<CgiOutcome> CgiOutcomes => Set<CgiOutcome>();
     public DbSet<NotificationLog> NotificationLogs => Set<NotificationLog>();
     public DbSet<RuleProfile> RuleProfiles => Set<RuleProfile>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Student>().HasIndex(x => x.Email).IsUnique();
+        modelBuilder.Entity<Teacher>().HasIndex(x => x.Email).IsUnique();
+        modelBuilder.Entity<CgiOutcome>().HasIndex(x => x.CgiSessionId).IsUnique();
         modelBuilder.Entity<PushEvent>().HasIndex(x => x.DeliveryId).IsUnique();
         modelBuilder.Entity<Repository>().HasIndex(x => x.GitHubRepoId).IsUnique();
     }

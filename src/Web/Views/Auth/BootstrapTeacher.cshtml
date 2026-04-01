@@ -1,0 +1,13 @@
+@model TeacherInputVm
+
+<div class="card" style="max-width: 560px; margin: 4rem auto;">
+    <h1>Eerste docentaccount</h1>
+    <p class="muted">Gebruik dit scherm één keer om het eerste docentaccount voor het portaal aan te maken.</p>
+
+    <form method="post">
+        <input asp-for="Name" placeholder="Naam" />
+        <input asp-for="Email" placeholder="E-mailadres" />
+        <input asp-for="Password" type="password" placeholder="Wachtwoord" />
+        <button type="submit">Docentaccount aanmaken</button>
+    </form>
+</div>

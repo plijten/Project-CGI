@@ -11,17 +11,20 @@ namespace Infrastructure.Persistence;
 public class PushEventService : IPushEventService
 {
     private readonly AppDbContext _dbContext;
+    private readonly IAiReviewService _aiReviewService;
     private readonly ICgiQuestionGenerator _questionGenerator;
     private readonly INotificationService _notificationService;
     private readonly RelevancyService _relevancyService;
 
     public PushEventService(
         AppDbContext dbContext,
+        IAiReviewService aiReviewService,
         ICgiQuestionGenerator questionGenerator,
         INotificationService notificationService,
         RelevancyService relevancyService)
     {
         _dbContext = dbContext;
+        _aiReviewService = aiReviewService;
         _questionGenerator = questionGenerator;
         _notificationService = notificationService;
         _relevancyService = relevancyService;
@@ -100,7 +103,64 @@ public class PushEventService : IPushEventService
             });
         }
 
+        var aiReview = await _aiReviewService.ReviewCodeAsync(
+            payload.Repository.Name,
+            branch,
+            payload.Commits.Select(x => x.Message).ToList(),
+            filePaths,
+            cancellationToken);
+
+        if (aiReview is not null)
+        {
+            session.AiReviewSummary = aiReview.Summary;
+            session.AiTeacherInsight = aiReview.TeacherInsight;
+            session.AiSuggestedAssessment = aiReview.SuggestedAssessment;
+            session.AiRiskFlags = aiReview.RiskFlags;
+            session.AiReviewedAtUtc = DateTime.UtcNow;
+
+            foreach (var reflectionQuestion in aiReview.ReflectionQuestions.Where(x => !string.IsNullOrWhiteSpace(x)))
+            {
+                session.Questions.Add(new CgiQuestion
+                {
+                    CgiSessionId = session.Id,
+                    OrderNr = order++,
+                    QuestionText = reflectionQuestion,
+                    SourceType = "AIReflection"
+                });
+            }
+        }
+
         _dbContext.CgiSessions.Add(session);
+        _dbContext.AuditLogs.Add(new AuditLog
+        {
+            ActorName = "GitHub webhook",
+            ActorRole = "System",
+            Action = "Push ontvangen",
+            SubjectType = nameof(PushEvent),
+            SubjectId = pushEvent.Id.ToString(),
+            Details = $"Webhook voor {payload.Repository.Owner.Name}/{payload.Repository.Name} op branch {branch} verwerkt."
+        });
+        _dbContext.AuditLogs.Add(new AuditLog
+        {
+            ActorName = "GitHub webhook",
+            ActorRole = "System",
+            Action = "CGI aangemaakt",
+            SubjectType = nameof(CgiSession),
+            SubjectId = session.Id.ToString(),
+            Details = $"CGI-sessie aangemaakt voor {payload.Repository.Name} met prioriteit {session.Priority}."
+        });
+        if (aiReview is not null)
+        {
+            _dbContext.AuditLogs.Add(new AuditLog
+            {
+                ActorName = "GitHub webhook",
+                ActorRole = "System",
+                Action = "AI code review uitgevoerd",
+                SubjectType = nameof(CgiSession),
+                SubjectId = session.Id.ToString(),
+                Details = $"Automatische review met advies '{aiReview.SuggestedAssessment}' gegenereerd."
+            });
+        }
 
         if (relevant && enrollment?.TeacherId is Guid teacherId)
         {

@@ -9,6 +9,7 @@ public class Student
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string ClassName { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
 }
 
 public class Teacher
@@ -16,6 +17,7 @@ public class Teacher
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
 }
 
 public class Repository
@@ -79,6 +81,11 @@ public class CgiSession
     public CgiSessionStatus Status { get; set; } = CgiSessionStatus.Draft;
     public string Priority { get; set; } = "Normal";
     public DateTime? ScheduledAtUtc { get; set; }
+    public string AiReviewSummary { get; set; } = string.Empty;
+    public string AiTeacherInsight { get; set; } = string.Empty;
+    public string AiSuggestedAssessment { get; set; } = string.Empty;
+    public string AiRiskFlags { get; set; } = string.Empty;
+    public DateTime? AiReviewedAtUtc { get; set; }
     public List<CgiQuestion> Questions { get; set; } = new();
 }
 
@@ -89,17 +96,28 @@ public class CgiQuestion
     public int OrderNr { get; set; }
     public string QuestionText { get; set; } = string.Empty;
     public string SourceType { get; set; } = "Template";
+    public string StudentAnswer { get; set; } = string.Empty;
+    public string AnswerAnalysis { get; set; } = string.Empty;
+    public bool IsAnswerSuspect { get; set; }
+    public string AnswerConfidence { get; set; } = string.Empty;
+    public DateTime? AnsweredAtUtc { get; set; }
 }
 
 public class CgiOutcome
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid CgiSessionId { get; set; }
+    public CgiAssessment? Rating { get; set; }
     public string UnderstandingLevel { get; set; } = string.Empty;
     public string ArgumentationLevel { get; set; } = string.Empty;
     public string AiUseLevel { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
+    public string Tops { get; set; } = string.Empty;
+    public string Tips { get; set; } = string.Empty;
     public string FollowUpAction { get; set; } = string.Empty;
+    public Guid? ReviewedByTeacherId { get; set; }
+    public string ReviewedByName { get; set; } = string.Empty;
+    public DateTime ReviewedAtUtc { get; set; } = DateTime.UtcNow;
 }
 
 public class NotificationLog
@@ -120,4 +138,16 @@ public class RuleProfile
     public int MinFilesChanged { get; set; }
     public int MinCommitCount { get; set; }
     public bool IsActive { get; set; } = true;
+}
+
+public class AuditLog
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public string ActorName { get; set; } = string.Empty;
+    public string ActorRole { get; set; } = string.Empty;
+    public string Action { get; set; } = string.Empty;
+    public string SubjectType { get; set; } = string.Empty;
+    public string SubjectId { get; set; } = string.Empty;
+    public string Details { get; set; } = string.Empty;
 }

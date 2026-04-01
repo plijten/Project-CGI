@@ -1,15 +1,39 @@
 @model IEnumerable<DashboardItemVm>
-<h1>Dashboard</h1>
-<table>
-<thead><tr><th>CGI</th><th>Status</th><th>Prioriteit</th></tr></thead>
-<tbody>
-@foreach (var item in Model)
-{
-    <tr>
-        <td><a href="/cgi/@item.CgiSessionId">@item.CgiSessionId</a></td>
-        <td>@item.Status</td>
-        <td>@item.Priority</td>
-    </tr>
-}
-</tbody>
-</table>
+<div class="card">
+    <h1>CGI-dashboard</h1>
+    <p class="muted">Overzicht van openstaande en afgeronde CGI's met student-, docent- en beoordelingsinformatie.</p>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Repository</th>
+                <th>Student</th>
+                <th>Docent</th>
+                <th>Klas</th>
+                <th>Status</th>
+                <th>Prioriteit</th>
+                <th>Beoordeling</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@item.RepositoryName</strong>
+                </td>
+                <td>@item.StudentName</td>
+                <td>@item.TeacherName</td>
+                <td>@item.ClassName</td>
+                <td>@item.Status</td>
+                <td><span class="badge">@item.Priority</span></td>
+                <td>@item.Assessment</td>
+                <td><a asp-controller="Cgi" asp-action="Edit" asp-route-sessionId="@item.CgiSessionId">Open CGI</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
