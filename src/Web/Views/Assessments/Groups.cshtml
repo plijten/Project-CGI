@@ -1,0 +1,32 @@
+@model Web.ViewModels.GroupManagementVm
+<h1>Groepen beheren</h1>
+
+<form method="post" action="/Assessments/AddGroup">
+    <input name="name" placeholder="Groepsnaam" required />
+    <input name="sprintName" placeholder="Sprint (bijv. Sprint 1)" required />
+    <select name="teacherId" required>
+        <option value="">Kies docent</option>
+        @foreach (var teacher in Model.Teachers)
+        {
+            <option value="@teacher.Id">@teacher.DisplayName</option>
+        }
+    </select>
+    <div>
+        <strong>Studenten</strong><br />
+        @foreach (var student in Model.Students)
+        {
+            <label><input type="checkbox" name="studentIds" value="@student.Id" /> @student.DisplayName</label><br />
+        }
+    </div>
+    <button type="submit">Groep aanmaken</button>
+</form>
+
+<h2>Bestaande groepen</h2>
+<ul>
+@foreach (var group in Model.Groups)
+{
+    <li>
+        <a href="/Assessments/GroupDetail/@group.Id">@group.Name</a> - @group.SprintName - @group.TeacherName (@group.StudentCount studenten)
+    </li>
+}
+</ul>

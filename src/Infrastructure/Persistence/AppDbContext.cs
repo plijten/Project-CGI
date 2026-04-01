@@ -21,6 +21,11 @@ public class AppDbContext : DbContext
     public DbSet<CgiOutcome> CgiOutcomes => Set<CgiOutcome>();
     public DbSet<NotificationLog> NotificationLogs => Set<NotificationLog>();
     public DbSet<RuleProfile> RuleProfiles => Set<RuleProfile>();
+    public DbSet<StudentGroup> StudentGroups => Set<StudentGroup>();
+    public DbSet<StudentGroupMembership> StudentGroupMemberships => Set<StudentGroupMembership>();
+    public DbSet<WorkProcessAssessment> WorkProcessAssessments => Set<WorkProcessAssessment>();
+    public DbSet<WorkProcessAssessmentScore> WorkProcessAssessmentScores => Set<WorkProcessAssessmentScore>();
+    public DbSet<AssessmentAuditTrail> AssessmentAuditTrails => Set<AssessmentAuditTrail>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,5 +36,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<CgiOutcome>().HasIndex(x => x.CgiSessionId).IsUnique();
         modelBuilder.Entity<PushEvent>().HasIndex(x => x.DeliveryId).IsUnique();
         modelBuilder.Entity<Repository>().HasIndex(x => x.GitHubRepoId).IsUnique();
+        modelBuilder.Entity<StudentGroupMembership>()
+            .HasIndex(x => new { x.StudentGroupId, x.StudentId })
+            .IsUnique();
     }
 }

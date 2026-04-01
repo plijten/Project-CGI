@@ -1,0 +1,22 @@
+@model Web.ViewModels.AssessmentDetailVm
+<h1>Beoordeling @Model.WorkProcessCode - @Model.AssessmentType</h1>
+<p>Groep: @Model.GroupName (@Model.SprintName)</p>
+<p>Cijfer: @Model.Grade - @(Model.Passed ? "Behaald" : "Niet behaald")</p>
+<p>Beoordelaars: @Model.Assessor1 @if(!string.IsNullOrWhiteSpace(Model.Assessor2)){<text>en @Model.Assessor2</text>}</p>
+<p>Motivatie: @Model.Motivation</p>
+
+<h2>Scores</h2>
+<ul>
+@foreach (var score in Model.Scores)
+{
+    <li>@score.CriterionCode - @score.Title: @score.Score</li>
+}
+</ul>
+
+<h2>Audit trail</h2>
+<ul>
+@foreach (var audit in Model.AuditTrail)
+{
+    <li>@audit.PerformedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC - @audit.Action door @audit.PerformedBy (@audit.Details)</li>
+}
+</ul>

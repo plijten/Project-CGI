@@ -1,0 +1,27 @@
+@model Web.ViewModels.GroupDetailVm
+<h1>@Model.GroupName (@Model.SprintName)</h1>
+<p>Docent: @Model.TeacherName</p>
+<p>Studenten: @string.Join(", ", Model.Students)</p>
+
+<h2>Nieuwe beoordeling</h2>
+<ul>
+@foreach (var wp in Model.WorkProcesses)
+{
+    <li>
+        @wp.Code - @wp.Title |
+        <a href="/Assessments/Edit?groupId=@Model.GroupId&workProcessId=@wp.Id&type=Tussen">Tussenbeoordeling</a> |
+        <a href="/Assessments/Edit?groupId=@Model.GroupId&workProcessId=@wp.Id&type=Definitief">Definitieve beoordeling</a>
+    </li>
+}
+</ul>
+
+<h2>Ingevulde beoordelingen</h2>
+<ul>
+@foreach (var item in Model.Assessments)
+{
+    <li>
+        <a href="/Assessments/Detail/@item.Id">@item.WorkProcessCode - @item.AssessmentType</a>
+        (cijfer @item.Grade, @(item.Passed ? "Behaald" : "Niet behaald"), bijgewerkt @item.LastUpdatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC)
+    </li>
+}
+</ul>

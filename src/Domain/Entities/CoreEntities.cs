@@ -140,6 +140,70 @@ public class RuleProfile
     public bool IsActive { get; set; } = true;
 }
 
+public class StudentGroup
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; } = string.Empty;
+    public string SprintName { get; set; } = string.Empty;
+    public Guid TeacherId { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public List<StudentGroupMembership> Memberships { get; set; } = new();
+}
+
+public class StudentGroupMembership
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid StudentGroupId { get; set; }
+    public Guid StudentId { get; set; }
+}
+
+public class WorkProcessAssessment
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid StudentGroupId { get; set; }
+    public string WorkProcessId { get; set; } = string.Empty;
+    public string WorkProcessCode { get; set; } = string.Empty;
+    public string WorkProcessTitle { get; set; } = string.Empty;
+    public string AssessmentType { get; set; } = string.Empty; // Tussen of Definitief
+    public DateTime? Date { get; set; }
+    public string CandidateName { get; set; } = string.Empty;
+    public string StudentNumber { get; set; } = string.Empty;
+    public string ClassName { get; set; } = string.Empty;
+    public string Assessor1 { get; set; } = string.Empty;
+    public string Assessor2 { get; set; } = string.Empty;
+    public string Motivation { get; set; } = string.Empty;
+    public bool? AuthenticityIsOwnWork { get; set; }
+    public string AuthenticityNotes { get; set; } = string.Empty;
+    public int TotalPoints { get; set; }
+    public decimal Grade { get; set; }
+    public bool Passed { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public string CreatedBy { get; set; } = string.Empty;
+    public DateTime LastUpdatedAtUtc { get; set; } = DateTime.UtcNow;
+    public string LastUpdatedBy { get; set; } = string.Empty;
+    public List<WorkProcessAssessmentScore> Scores { get; set; } = new();
+}
+
+public class WorkProcessAssessmentScore
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid WorkProcessAssessmentId { get; set; }
+    public string CriterionId { get; set; } = string.Empty;
+    public string CriterionCode { get; set; } = string.Empty;
+    public string CriterionTitle { get; set; } = string.Empty;
+    public int Score { get; set; }
+}
+
+public class AssessmentAuditTrail
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid WorkProcessAssessmentId { get; set; }
+    public DateTime PerformedAtUtc { get; set; } = DateTime.UtcNow;
+    public string PerformedBy { get; set; } = string.Empty;
+    public string Action { get; set; } = string.Empty;
+    public string Details { get; set; } = string.Empty;
+}
+
 public class AuditLog
 {
     public Guid Id { get; set; } = Guid.NewGuid();
